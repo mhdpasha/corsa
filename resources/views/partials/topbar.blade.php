@@ -227,7 +227,7 @@
                 </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/profile">Profil</a></li>
+                <li><a class="dropdown-item" href="/profile">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                   <form action="{{ route('logout') }}" method="POST">
@@ -248,7 +248,7 @@
                       <div class="flex-wrap d-flex justify-content-between align-items-center">
                           <div>
                               <h1>Corsa</h1>
-                              <p>Redtop Hotel & Convention Center  -  Request System Management App</p>
+                              <p>Request System Management App</p>
                           </div>
                           <div>
                               <a href="/requests?openModal=true" class="btn btn-link btn-soft-light center-button">

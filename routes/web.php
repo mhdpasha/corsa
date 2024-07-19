@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncomingRequestController;
 
 /*
@@ -30,9 +32,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin,user'])->group(function () {
-    Route::get('dashboard', function () {
-        return view('pages.dashboard.index');
-    })->name('dashboard');
+
+    Route::resource('dashboard', DashboardController::class);
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/users/csv', [UserController::class, 'csv'])->name('users.csv');
@@ -43,7 +44,7 @@ Route::middleware(['auth', 'role:admin,user'])->group(function () {
     Route::resource('profile', ProfileController::class);
     Route::resource('requests', IncomingRequestController::class);
     Route::resource('timeline', TimelineController::class);
-    
+    Route::resource('task', TaskController::class);
 
 
     // Route::get('logs', function () { return view('pages.logs.index'); });

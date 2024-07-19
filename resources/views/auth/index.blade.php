@@ -6,7 +6,9 @@
       <title>Corsa App</title>
       
       <!-- Favicon -->
-      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+      <link rel="icon" href="../assets/images/favicon.ico" type="image/png">
+      <link rel="manifest" href="/manifest.json">
       
       <!-- Library / Plugin Css Build -->
       <link rel="stylesheet" href="../../assets/css/core/libs.min.css">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
 use App\Models\IncomingRequest;
 use App\Http\Requests\StoreIncomingRequestRequest;
 use App\Http\Requests\UpdateIncomingRequestRequest;
@@ -13,8 +14,19 @@ class IncomingRequestController extends Controller
      */
     public function index()
     {
+        $datas = IncomingRequest::with(['requestor', 'receiver'])
+                                ->orderBy('id', 'desc')
+                                ->get();
+        $checkUserRequest = IncomingRequest::with(['requestor', 'receiver'])
+                                ->where('requestor_id', auth()->user()->id)
+                                ->where('status', '!=', 'cleared')
+                                ->get();
+        $form = Form::all();
+
         return view('pages.requests.index', [
-            'datas' => IncomingRequest::with(['requestor', 'receiver'])->orderBy('id', 'desc')->get()
+            'datas' => $datas,
+            'request' => $checkUserRequest,
+            'form' => $form
         ]);
     }
 

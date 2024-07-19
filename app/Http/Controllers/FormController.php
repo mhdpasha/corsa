@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreFormRequest;
 use App\Http\Requests\UpdateFormRequest;
 
@@ -32,9 +33,17 @@ class FormController extends Controller
     public function store(StoreFormRequest $request)
     {
         $validated = $request->validated();
-        Form::create($validated);
+        DB::beginTransaction();
 
-        return redirect(route('forms.index'));
+        try {
+            Form::create($validated);
+            DB::commit();
+            return redirect(route('forms.index'));
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('forms.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -59,9 +68,17 @@ class FormController extends Controller
     public function update(UpdateFormRequest $request, Form $form)
     {
         $validated = $request->validated();
-        $form->update($validated);
-        
-        return redirect(route('forms.index'));
+        DB::beginTransaction();
+
+        try {
+            $form->update($validated);
+            DB::commit();
+            return redirect(route('forms.index'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('forms.index'))->with('error', 'Failed to update form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -69,7 +86,16 @@ class FormController extends Controller
      */
     public function destroy(Form $form)
     {
+        DB::beginTransaction();
+
+    try {
         $form->delete();
+        DB::commit();
         return redirect(route('forms.index'));
+
+    } catch (\Exception $e) {
+        DB::rollBack(); 
+        return redirect(route('forms.index'))->with('error', 'Failed to delete form: ' . $e->getMessage());
+    }
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->string('location');
-            $table->string('floor');
+            $table->string('location')->nullable();
+            $table->string('floor')->nullable();
             $table->timestamps();
         });
     }

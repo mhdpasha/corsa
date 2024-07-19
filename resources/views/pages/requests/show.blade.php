@@ -8,8 +8,10 @@
             <div class="card-header container d-flex justify-content-between">
                 <div class="header-title d-flex justify-content-between w-100 px-3 pt-2">
                     <div class="me-auto">
-                        <h5>{{ $data->title }} - {{ $data->location }}</h5>
-                        <p>{{ $data->requestor->name }} ( {{ $data->requestor->department }} ) - calling for {{ $data->type }}</p>
+                        <h5>
+                            {{ $data->title }} - {{ $data->location }}
+                        </h5> 
+                        <p>{{ $data->requestor->name }} ({{ $data->requestor->department }}) calling for {{ $data->type }}</p>
                     </div>
                     
                     <div class="ms-auto text-end">
@@ -23,15 +25,28 @@
                     <div class="mx-auto text-center fw-bold w-100">
                         Chat Room
                     </div>
+                    <div class="mx-auto text-center fw-bold w-100">
+                        @if ($data->status == 'new')
+                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> NEW </span>
+                              @elseif ($data->status == 'accepted')
+                              <span class="badge rounded-pill bg-soft-success" style="min-width: 60px;"> ACPT </span>
+                              @elseif ($data->status == 'assigned')
+                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> ASGN </span>
+                              @elseif ($data->status == 'cleared')
+                              <span class="badge rounded-pill bg-soft-primary" style="min-width: 60px;"> CLEAR </span>
+                              @endif
+                    </div>
+                    
+                    
                     <div id="chat-messages" class="mb-5 mt-5">
                         <!-- Message from Self (User 1) -->
                         <div class="d-flex justify-content-start mb-4">
                             <div class="p-3 bg-light rounded" style="max-width: 60%;">
-                                <h5 class="fw-bold mb-2">{{ $data->receiver->name }} ({{ $data->receiver->department }})</h5>
-                                Hi there Pasha
+                                <h5 class="fw-bold mb-2">{{ $data->requestor->name }} ({{ $data->requestor->department }})</h5>
+                                <span>{{ $data->description }}</span>
                             </div>
                         </div>
-                        <!-- Message from Self (User 2) -->
+                        {{-- <!-- Message from Self (User 2) -->
                         <div class="d-flex justify-content-end mb-4">
                             <div class="p-3 bg-primary text-white rounded" style="max-width: 80%;">
                                 <h5 class="fw-bold text-white mb-2">Me</h5>
@@ -58,11 +73,11 @@
                                 <h5 class="fw-bold text-white mb-2">Me</h5>
                                 It seems there was a temporary lock on your account due to multiple failed login attempts. I've reset it for you. Please try logging in again now.
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="container mt-4">
                         <div class="row g-2">
-                            @if($data->status != 'cleared')
+                            @if($data->status == 'new')
                             <div class="col-12 col-md-auto">
                                 <button id="accept-chat" class="btn btn-soft-success w-100">Accept</button>
                             </div>
@@ -73,8 +88,8 @@
                         @endif
                             <div class="col-12 col-md d-flex">
                                 <div class="input-group w-100">
-                                    <input type="text" id="chat-input" class="form-control" placeholder="Type your message...">
-                                    <button id="send-chat" class="btn btn-soft-primary">
+                                    <input {{ ($data->status == 'cleared' ? 'disabled' : '') }} type="text" id="chat-input" class="form-control" placeholder="Type your message...">
+                                    <button {{ ($data->status == 'cleared' ? 'disabled' : '') }} id="send-chat" class="btn btn-soft-primary">
                                         <i class="icon">
                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M21.4274 2.5783C20.9274 2.0673 20.1874 1.8783 19.4974 2.0783L3.40742 6.7273C2.67942 6.9293 2.16342 7.5063 2.02442 8.2383C1.88242 8.9843 2.37842 9.9323 3.02642 10.3283L8.05742 13.4003C8.57342 13.7163 9.23942 13.6373 9.66642 13.2093L15.4274 7.4483C15.7174 7.1473 16.1974 7.1473 16.4874 7.4483C16.7774 7.7373 16.7774 8.2083 16.4874 8.5083L10.7164 14.2693C10.2884 14.6973 10.2084 15.3613 10.5234 15.8783L13.5974 20.9283C13.9574 21.5273 14.5774 21.8683 15.2574 21.8683C15.3374 21.8683 15.4274 21.8683 15.5074 21.8573C16.2874 21.7583 16.9074 21.2273 17.1374 20.4773L21.9074 4.5083C22.1174 3.8283 21.9274 3.0883 21.4274 2.5783Z" fill="currentColor"></path>
