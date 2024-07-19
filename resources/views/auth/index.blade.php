@@ -39,8 +39,8 @@
                   <div class="col-md-10">
                      <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                         <div class="card-body">
-                           <h2 class="mb-2 text-center">Sign In</h2>
-                           <p class="text-center">Login to stay connected.</p>
+                           <h2 class="mb-2 text-center">Corsa</h2>
+                           <p class="text-center">Login to access.</p>
                            <form action="{{ route('auth') }}" method="POST">
                               @csrf
                               <div class="row">
@@ -85,9 +85,7 @@
                                   <button type="submit" class="btn btn-primary w-100">Sign In</button>
                               </div>
                               
-                              <p class="mt-3 text-center">
-                                  Don’t have an account? <a href="#" class="text-underline">Click here to sign up.</a>
-                              </p>
+                              <p class="mt-3 text-center"> Requests management system app     </p>
                           </form>
                         </div>
                      </div>

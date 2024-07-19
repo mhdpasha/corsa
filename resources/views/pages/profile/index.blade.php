@@ -30,9 +30,9 @@
                          
                       </div>
                       <div class="form-group">
-                         <label class="form-label">Departement :</label>
+                         <label class="form-label">Department :</label>
                          <select name="type" class="selectpicker form-control" data-style="py-0" disabled>
-                            <option>{{ $profile->departement }}</option>
+                            <option>{{ $profile->department }}</option>
                          </select>
                       </div>
                       <div class="form-group">

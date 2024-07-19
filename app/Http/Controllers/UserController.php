@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -13,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         return view('pages.users.index', [
-            'users' => User::all()
+            'users' => User::where('isDeleted', null)->get()
         ]);
     }
 
@@ -28,9 +31,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['view_password'] = $request->password;
+
+        User::create($validated);
+
+        return redirect(route('users.index'));
     }
 
     /**
@@ -54,7 +62,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        // $validated = $request->validated();
+        $user->update($request->all());
+
+        return redirect(route('users.index'));
+
     }
 
     /**
@@ -62,6 +74,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->update([
+            'email' => null,
+            'isDeleted' => true,
+        ]);
+        return redirect(route('users.index'));
+    }
+
+    public function csv(Request $request)
+    {
+        dd($request);
     }
 }

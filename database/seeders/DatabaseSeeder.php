@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Form;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\IncomingRequest;
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Pasha',
             'email' => 'pasha@gmail.com',
-            'departement' => 'IT',
+            'department' => 'IT',
             'password' => 'pasha123',
             'view_password' => 'pasha123',
             'role' => 'admin',
@@ -26,13 +27,21 @@ class DatabaseSeeder extends Seeder
         $user2 = User::create([
             'name' => 'John',
             'email' => 'john@gmail.com',
-            'departement' => 'HK',
+            'department' => 'HK',
             'password' => 'john123',
             'view_password' => 'john123',
             'role' => 'admin',
         ]);
+        $user3 = User::create([
+            'name' => 'Kevin',
+            'email' => 'kevin@gmail.com',
+            'department' => 'FO',
+            'password' => 'kevin123',
+            'view_password' => 'kevin123',
+            'role' => 'admin',
+        ]);
         IncomingRequest::create([
-            'status' => 'new',
+            'status' => 'cleared',
             'type' => 'Maintenance',
             'title' => 'Window Broken',
             'location' => 'Room 301',
@@ -52,6 +61,34 @@ class DatabaseSeeder extends Seeder
             'requestor_id' => $user2->id,
             'receiver_id' => $user1->id,
             'slug' =>  Str::orderedUuid()
+        ]);
+        IncomingRequest::create([
+            'status' => 'new',
+            'type' => 'Lost and Found',
+            'title' => 'Locker',
+            'location' => 'Room 307',
+            'description' => 'Locker broken',
+            'picture' => 'yes',
+            'requestor_id' => $user3->id,
+            'receiver_id' => $user2->id,
+            'slug' =>  Str::orderedUuid()
+        ]);
+
+        Form::create([
+            'location' => 'Room 300',
+            'floor' => '21'
+        ]);
+        Form::create([
+            'location' => 'Room 301',
+            'floor' => '21'
+        ]);
+        Form::create([
+            'location' => 'Room 303',
+            'floor' => '21'
+        ]);
+        Form::create([
+            'location' => 'Room 307',
+            'floor' => '21'
         ]);
     }
 }

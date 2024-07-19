@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimelineController;
@@ -19,7 +20,7 @@ use App\Http\Controllers\IncomingRequestController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(auth()->check() ? 'dashboard' : 'login');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -33,11 +34,18 @@ Route::middleware(['auth', 'role:admin,user'])->group(function () {
         return view('pages.dashboard.index');
     })->name('dashboard');
 
-    Route::resource('users', UserController::class);
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::post('/users/csv', [UserController::class, 'csv'])->name('users.csv');
+        Route::resource('users', UserController::class);
+        Route::resource('forms', FormController::class);
+    });
+
     Route::resource('profile', ProfileController::class);
     Route::resource('requests', IncomingRequestController::class);
     Route::resource('timeline', TimelineController::class);
     
+
+
     // Route::get('logs', function () { return view('pages.logs.index'); });
     // Route::get('history', function () { return view('pages.history.index'); });
     

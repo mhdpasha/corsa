@@ -8,7 +8,7 @@
                 <div class="header-title d-flex justify-content-between w-100">
 
                   <div>
-                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                     <button type="button" class="btn btn-soft-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                         + Add Requests
                      </button>
                   </div>
@@ -27,21 +27,44 @@
                    <table id="datatable" class="table table-striped" data-toggle="data-table">
                       <thead>
                          <tr>
-                           <th style="max-width: 10px">No</th>
+                           <th style="max-width: 1px"></th>
                            <th style="max-width: 10px">Requestor</th>
                            <th style="max-width: 10px">Department</th>
                            <th style="max-width: 10px">Location</th>
                            <th style="max-width: 10px">Title</th>
-                           <th>Pictures</th>
-                           <th>Status</th>
+                           <th style="max-width: 10px" class="text-center">Pictures</th>
+                           <th style="max-width: 10px" class="text-center">Status</th>
                            <th style="max-width: 10px">Date</th>
-                           <th>Action</th>
+                           <th style="max-width: 10px">Action</th>
                          </tr>
                       </thead>
                       <tbody>
                         @foreach ($datas as $data)
                         <tr>
-                           <td>{{ $loop->iteration }}</td>
+                           <td>
+                              @switch($data->type)
+                                 @case('FIRE')
+                                    🔥
+                                    @break
+                                 @case('Housekeeping')
+                                    🛏️
+                                    @break
+                                 @case('Maintenance')
+                                    🛠️
+                                    @break
+                                 @case('Concierge')
+                                    🤵
+                                    @break
+                                 @case('Room Service')
+                                    ☎️
+                                    @break
+                                 @case('Lost and Found')
+                                    🔒
+                                    @break
+                                 @default
+                                    err
+                              @endswitch
+                           </td>
                            <td>{{ $data->requestor->name }}</td>
                            <td>{{ $data->type }}</td>
                            <td>{{ $data->location }}</td>
@@ -54,11 +77,21 @@
                                     <path d="M11.4543 8.79668C11.4543 10.2053 10.2809 11.3783 8.87313 11.3783C7.46632 11.3783 6.29297 10.2053 6.29297 8.79668C6.29297 7.38909 7.46632 6.21509 8.87313 6.21509C10.2809 6.21509 11.4543 7.38909 11.4543 8.79668Z" fill="currentColor"></path>
                                  </svg>
                               @endif
+                           </td> 
+                           <td class="text-center">
+                              @if ($data->status == 'new')
+                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> NEW </span>
+                              @elseif ($data->status == 'accepted')
+                              <span class="badge rounded-pill bg-soft-success" style="min-width: 60px;"> ACPT </span>
+                              @elseif ($data->status == 'assigned')
+                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> ASGN </span>
+                              @elseif ($data->status == 'cleared')
+                              <span class="badge rounded-pill bg-soft-primary" style="min-width: 60px;"> CLEAR </span>
+                              @endif
                            </td>
-                           <td>{{ strtoupper($data->status) }}</td>
                            <td>{{ $data->detailed_created_at }}</td>
                            <td class="flex">
-                              <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-primary">Detail</a>
+                              <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-soft-primary">Detail</a>
                            </td>
                         </tr>
                         @endforeach
@@ -79,21 +112,46 @@
             <h1 class="modal-title fs-5" id="addModalLabel">Add new request</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
-         <form class="px-3" action="{{ route('requests.store') }}" method="POST" enctype="multipart/form-data" id="addForm">
+         <form class="px-3" action="{{ route('requests.store') }}" method="POST" id="addForm">
             @csrf
-            <div class="mt-3">
-               <label for="title" class="form-label">Title</label>
-               <input type="title" class="form-control" id="title" placeholder="what happened?" name="title">
-               <label for="title" class="form-label">Title</label>
-               <input type="title" class="form-control" id="title" placeholder="what happened?" name="title">
+            <div class="row mt-3">
+               <div class="col-md-6">
+                   <label for="title" class="form-label">Title</label>
+                   <input type="text" class="form-control" id="title" placeholder="What happened?" name="title">
+               </div>
+               <div class="col-md-6">
+                   <label for="location" class="form-label">Location</label>
+                   <input type="text" class="form-control" id="location" placeholder="Where?" name="location">
+               </div>
+           </div>
+            <div class="row mt-3">
+               <div class="col-md-6">
+                   <label for="title" class="form-label">Title</label>
+                   <input type="text" class="form-control" id="title" placeholder="What happened?" name="title">
+               </div>
+               <div class="col-md-6">
+                   <label for="location" class="form-label">Location</label>
+                   <input type="text" class="form-control" id="location" placeholder="Where?" name="location">
+               </div>
             </div>
 
+           <button type="submit" class="btn btn-primary mt-5 mb-3 w-100" id="submitBtn">Submit</button>
          </form>
-      <button type="button" class="btn btn-primary m-4" id="submitBtn">Submit</button>
 
      </div>
    </div>
  </div>
 
+ <script>
+   document.addEventListener('DOMContentLoaded', function() {
+       const urlParams = new URLSearchParams(window.location.search)
+       if (urlParams.has('openModal') && urlParams.get('openModal') === 'true') {
+           let reqModal = new bootstrap.Modal(document.getElementById('addModal'), {
+               keyboard: false
+           })
+           reqModal.show()
+       }
+   })
+</script>
 
 @endsection

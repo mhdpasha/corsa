@@ -14,7 +14,7 @@ class IncomingRequestController extends Controller
     public function index()
     {
         return view('pages.requests.index', [
-            'datas' => IncomingRequest::all()
+            'datas' => IncomingRequest::with(['requestor', 'receiver'])->orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -31,7 +31,7 @@ class IncomingRequestController extends Controller
      */
     public function store(StoreIncomingRequestRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**

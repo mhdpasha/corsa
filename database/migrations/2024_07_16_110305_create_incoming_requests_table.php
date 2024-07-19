@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('incoming_requests', function (Blueprint $table) {
             $table->id();
             $table->enum('status', ['new', 'accepted', 'assigned', 'cleared'])->nullable();
-            $table->enum('type', ['FIRE','Housekeeping', 'Maintenance', 'Concierge', 'Room Service', 'Loss and Found']);
+            $table->enum('type', ['FIRE','Housekeeping', 'Maintenance', 'Concierge', 'Room Service', 'Lost and Found']);
             $table->string('title');
             $table->string('location');
             $table->string('description');
