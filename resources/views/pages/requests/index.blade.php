@@ -76,7 +76,7 @@
                            <th style="max-width: 10px" class="text-center">Pictures</th>
                            <th style="max-width: 10px" class="text-center">Status</th>
                            <th style="max-width: 10px">Date</th>
-                           <th style="max-width: 10px">Action</th>
+                           <th st   yle="max-width: 10px">Action</th>
                          </tr>
                       </thead>
                       <tbody>
