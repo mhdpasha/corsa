@@ -12,7 +12,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('pages.task.index');
+        $tasks = IncomingRequest::where('receiver_id', auth()->user()->id)->get();
+
+        return view('pages.task.index', [
+            'tasks' => $tasks
+        ]);
     }
 
     /**

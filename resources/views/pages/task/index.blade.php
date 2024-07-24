@@ -23,7 +23,32 @@
                     <div class="col-lg-12">
                         <div class="card  ">
                             <div class="card-body">
-                                <div id="calendar1" class="calendar-s"></div>
+                                @if ($errors->any())
+                   <div class="alert alert-danger">
+                       <ul>
+                           @foreach ($errors->all() as $error)
+                               <li>{{ $error }}</li>
+                           @endforeach
+                       </ul>
+                   </div>
+               @endif
+
+                    <div class="row">
+                        <p>Assigned to: {{ auth()->user()->name }}</p>
+                        @forelse($tasks as $task)
+                            <div class="col-md-4 mt-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>{{ $task->title }}</h5>
+                                        <p>{{ $task->description }}</p>
+                                        <p>{{ $task->created_at->format('d M Y') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                           @empty
+                           <p class="text-center pb-3">No active tasks found.</p>
+                        @endforelse
+                    </div>
                             </div>
                         </div>
                     </div>

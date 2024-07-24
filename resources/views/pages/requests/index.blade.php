@@ -14,19 +14,17 @@
               </div>
               <div class="card-body">
                @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-               @if($request->isEmpty())
-                    <p class="text-center pb-3">No active requests found.</p>
-                @else
+                   <div class="alert alert-danger">
+                       <ul>
+                           @foreach ($errors->all() as $error)
+                               <li>{{ $error }}</li>
+                           @endforeach
+                       </ul>
+                   </div>
+               @endif
+
                     <div class="row">
-                        @foreach($request as $request)
+                        @forelse($request as $request)
                             <div class="col-md-4 mb-4">
                                 <div class="card">
                                     <div class="card-body">
@@ -36,9 +34,10 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                           @empty
+                           <p class="text-center pb-3">No active requests found.</p>
+                        @endforelse
                     </div>
-                @endif
               </div>
           </div>
       </div>
