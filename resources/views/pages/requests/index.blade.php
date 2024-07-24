@@ -13,6 +13,15 @@
                   </div>
               </div>
               <div class="card-body">
+               @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                @if($request->isEmpty())
                     <p class="text-center pb-3">No active requests found.</p>
                 @else
@@ -75,7 +84,7 @@
                         @foreach ($datas as $data)
                         <tr>
                            <td>
-                              @switch($data->type)
+                              {{-- @switch($data->type)
                                  @case('FIRE')
                                     🔥
                                     @break
@@ -96,7 +105,8 @@
                                     @break
                                  @default
                                     err
-                              @endswitch
+                              @endswitch --}}
+                              {{ $loop->iteration }}
                            </td>
                            <td>{{ $data->requestor->name }}</td>
                            <td>{{ $data->type }}</td>
@@ -145,7 +155,7 @@
             <h1 class="modal-title fs-5" id="addModalLabel">Add new request</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
-         <form class="px-3" action="{{ route('requests.store') }}" method="POST" id="addForm">
+         <form class="px-3" action="{{ route('requests.store') }}" method="POST" id="addForm" enctype="multipart/form-data">
             @csrf
             <div class="row mt-3">
                <div class="col-md-6">
@@ -169,7 +179,7 @@
                </div>
                <div class="col-md-6">
                   <label for="department" class="form-label">Calling for Dept</label>
-                  <select name="department" class="form-select w-100">
+                  <select name="type" class="form-select w-100">
                      <option value="FIRE">FIRE</option>
                      <option value="Housekeeping">Housekeeping</option>
                      <option value="Maintenance">Maintenance</option>
@@ -181,6 +191,8 @@
             </div>
             <label for="formFile" class="form-label mt-5">1 Photo as support (optional)</label>
             <input class="form-control" type="file" id="formFile" name="picture">
+
+            <input type="hidden" name="requestor_id" value="{{ auth()->user()->id }}">
 
            <button type="submit" class="btn btn-primary mt-5 mb-3 w-100" id="submitBtn">Submit</button>
          </form>

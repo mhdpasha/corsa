@@ -75,22 +75,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Form::create([
-            [
-                'location' => 'Ballroom',
-                'floor' => '1'
-            ],
-            [
-                'location' => 'Restaurant',
-                'floor' => '2'
-            ],
-            [
-                'location' => 'Fitness Center',
-                'floor' => '8'
-            ],
-            [
-                'location' => 'Spa',
-                'floor' => '12'
-            ]
+            'location' => 'Ballroom',
+            'floor' => '1'
+        ]);
+        Form::create([
+            'location' => 'Restaurant',
+            'floor' => '2'
+        ]);
+        Form::create([
+            'location' => 'Fitness Center',
+            'floor' => '3'
+        ]);
+        Form::create([
+            'location' => 'Spa',
+            'floor' => '12'
         ]);
     }
 }

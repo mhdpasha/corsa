@@ -19,3 +19,9 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<Directory "C:/laragon/www/corsa/public/storage">
+    Options -Indexes
+    Order Allow,Deny
+    Allow from all
+</Directory>

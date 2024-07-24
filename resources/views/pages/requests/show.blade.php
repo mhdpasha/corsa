@@ -13,10 +13,10 @@
                         </h5> 
                         <p>{{ $data->requestor->name }} ({{ $data->requestor->department }}) calling for {{ $data->type }}</p>
                     </div>
-                    
+                    {{ $data->pictures }}
                     <div class="ms-auto text-end">
                         <h5>{{ $data->created_at->translatedFormat('l, j F Y') }}</h5>
-                        <p>pukul {{ $data->created_at->translatedFormat('h:i a') }}</p>
+                        <p>pukul {{ $data->created_at->translatedFormat('H:i a') }}</p>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,10 @@
                         <div class="d-flex justify-content-start mb-4">
                             <div class="p-3 bg-light rounded" style="max-width: 60%;">
                                 <h5 class="fw-bold mb-2">{{ $data->requestor->name }} ({{ $data->requestor->department }})</h5>
-                                <span>{{ $data->description }}</span>
+                                <a href="{{ url('storage/'.$data->picture) }}">
+                                    <img src="{{ asset('storage/'.$data->picture) }}" alt="pic" height="auto" width="300px" class="rounded m-4">
+                                </a>
+                                <p class="text-black mb-0">{{ $data->description }}<span class="float-end fs-6 text-secondary fw-lighter">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
                             </div>
                         </div>
                         {{-- <!-- Message from Self (User 2) -->

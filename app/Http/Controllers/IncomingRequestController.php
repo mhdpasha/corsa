@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\IncomingRequest;
 use App\Http\Requests\StoreIncomingRequestRequest;
 use App\Http\Requests\UpdateIncomingRequestRequest;
@@ -41,9 +43,32 @@ class IncomingRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIncomingRequestRequest $request)
+    public function store(Request $request)
     {
-        dd($request);
+        $validated = $request->validate([
+            'type' => 'required',
+            'title' => 'required',
+            'location' => 'required',
+            'description' => 'required',
+            'requestor_id' => 'required',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192', // Validate image, max 8MB (8192 KB)
+        ]);
+
+        $validated['status'] = 'new';
+        $validated['slug'] = Str::orderedUuid();
+
+        if(!$request->receiver_id) {
+            $validated['receiver_id'] = $request->requestor_id;
+        }
+
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('public/pictures'); // Store in public directory
+            $validated['picture'] = str_replace('public/', '', $path); // Remove 'public/' from the path
+        }
+
+        IncomingRequest::create($validated);
+
+        return redirect()->route('requests.index')->with('success', 'Request submitted successfully!');
     }
 
     /**
