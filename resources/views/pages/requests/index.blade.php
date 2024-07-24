@@ -193,7 +193,7 @@
 
             <input type="hidden" name="requestor_id" value="{{ auth()->user()->id }}">
 
-           <button type="submit" class="btn btn-primary mt-5 mb-3 w-100" id="submitBtn">Submit</button>
+           <button type="submit" class="btn btn-soft-primary mt-5 mb-3 w-100" id="submitBtn">Submit</button>
          </form>
 
      </div>

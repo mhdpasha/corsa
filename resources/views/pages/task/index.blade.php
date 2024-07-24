@@ -34,7 +34,7 @@
                @endif
 
                     <div class="row">
-                        <p>Assigned to: {{ auth()->user()->name }}</p>
+                        <p>Assigned to: <strong>{{ auth()->user()->name }}</strong></p>
                         @forelse($tasks as $task)
                             <div class="col-md-4 mt-3">
                                 <div class="card">

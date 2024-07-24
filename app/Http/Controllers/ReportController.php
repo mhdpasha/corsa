@@ -3,23 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\IncomingRequest;
 
-class DashboardController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = [
-            'total' => IncomingRequest::count(),
-            'active' => IncomingRequest::whereNotIn('status', ['cleared', 'new'])->count(),
-            'new' => IncomingRequest::where('status', 'new')->count(),
-            'cleared' => IncomingRequest::where('status', 'cleared')->count(),
-        ];
-
-        return view('pages.dashboard.index', compact('data'));
+        return view('pages.report.index');
     }
 
     /**
