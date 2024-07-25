@@ -149,7 +149,7 @@
             <div class="row">
                <div class="col-md-6">
                    <label for="name" class="form-label">Name</label>
-                   <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+                   <input type="text" class="form-floating" id="name" name="name" autocomplete="off">
                </div>
                <div class="col-md-6">
                    <label for="department" class="form-label"><Datag></Datag>Department</label>

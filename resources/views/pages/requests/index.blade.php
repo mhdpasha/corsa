@@ -70,10 +70,10 @@
                          <tr>
                            <th style="max-width: 1px"></th>
                            <th style="max-width: 10px">Requestor</th>
-                           <th style="max-width: 10px">Department</th>
+                           <th style="max-width: 10px">Dept</th>
                            <th style="max-width: 10px">Location</th>
                            <th style="max-width: 10px">Title</th>
-                           <th style="max-width: 10px" class="text-center">Pictures</th>
+                           <th style="max-width: 10px" class="text-center"></th>
                            <th style="max-width: 10px" class="text-center">Status</th>
                            <th style="max-width: 10px">Date</th>
                            <th st   yle="max-width: 10px">Action</th>
@@ -158,17 +158,17 @@
             @csrf
             <div class="row mt-3">
                <div class="col-md-6">
-                   <label for="title" class="form-label">Title</label>
+                   <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
                    <input type="text" class="form-control" id="title" name="title" placeholder="What happened?" autocomplete="off">
                </div>
                <div class="col-md-6">
-                   <label for="description" class="form-label">Description</label>
+                   <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
                    <input type="text" class="form-control" id="description" name="description" placeholder="Short description" autocomplete="off">
                </div>
            </div>
             <div class="row mt-3">
                <div class="col-md-6">
-                  <label for="exampleDataList" class="form-label">Location</label>
+                  <label for="exampleDataList" class="form-label">Location <span class="text-danger">*</span></label>
                   <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to or select" name="location">
                   <datalist id="datalistOptions">
                     @foreach ($form as $location)
@@ -177,7 +177,7 @@
                   </datalist>
                </div>
                <div class="col-md-6">
-                  <label for="department" class="form-label">Calling for Dept</label>
+                  <label for="department" class="form-label">Calling for Dept <span class="text-danger">*</span></label>
                   <select name="type" class="form-select w-100">
                      <option value="FIRE">FIRE</option>
                      <option value="Housekeeping">Housekeeping</option>

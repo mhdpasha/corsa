@@ -36,7 +36,7 @@
       <!-- RTL Css -->
       <link rel="stylesheet" href="../assets/css/rtl.min.css">
 
-
+      @livewireStyles
   </head>
   <body class="light">
 
@@ -70,6 +70,8 @@
 
 
     @include('partials.setting')
+
+    @livewireScripts
 
     <!-- Library Bundle Script -->
     <script src="../assets/js/core/libs.min.js"></script>

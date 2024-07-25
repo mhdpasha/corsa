@@ -59,11 +59,11 @@
                         @method('PATCH')
                          <div class="row">
                             <div class="form-group col-md-6">
-                               <label class="form-label" for="name">Name :</label>
+                               <label class="form-label" for="name">Name </label>
                                <input type="text" class="form-control" id="name" placeholder="Full Name" value="{{ $profile->name }}" name="name" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6">
-                               <label class="form-label" for="email">Email :</label>
+                               <label class="form-label" for="email">Email </label>
                                <input type="text" class="form-control" id="email" placeholder="Email" value="{{ $profile->email }}" name="email" autocomplete="off">
                             </div>
                             <input type="hidden" name="id" value="{{ $profile->id }}">
@@ -92,7 +92,7 @@
                          {{-- <div class="checkbox">
                             <label class="form-label"><input class="form-check-input me-2" type="checkbox" value="" id="flexCheckChecked">Enable Two-Factor-Authentication</label>
                          </div> --}}
-                         <button type="submit" class="btn btn-primary w-100">Save</button>
+                         <button type="submit" class="btn btn-soft-primary w-100">Save</button>
                       </form>
                    </div>
                 </div>
