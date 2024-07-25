@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -36,9 +37,17 @@ class UserController extends Controller
         $validated = $request->validated();
         $validated['view_password'] = $request->password;
 
-        User::create($validated);
+        DB::beginTransaction();
 
-        return redirect(route('users.index'));
+        try {
+            User::create($validated);
+            DB::commit();
+            return redirect(route('users.index'))->with('added', 'Data has been added successfully');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('users.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -63,10 +72,16 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         // $validated = $request->validated();
-        $user->update($request->all());
-
-        return redirect(route('users.index'));
-
+        DB::beginTransaction();
+        try {
+            $user->update($request->all());
+            DB::commit();
+            return redirect(route('users.index'))->with('saved', 'Data updates has been saved');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('users.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -74,11 +89,22 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->update([
-            'email' => null,
-            'isDeleted' => true,
-        ]);
-        return redirect(route('users.index'));
+        DB::beginTransaction();
+
+        try {
+            $user->update([
+                'email' => null,
+                'isDeleted' => true,
+            ]);
+            DB::commit();
+
+            return redirect(route('users.index'))->with('deleted', 'Data has been deleted');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('users.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
+        
     }
 
     public function csv(Request $request)

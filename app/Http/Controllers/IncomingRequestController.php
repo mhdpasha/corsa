@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\IncomingRequest;
 use App\Http\Requests\StoreIncomingRequestRequest;
 use App\Http\Requests\UpdateIncomingRequestRequest;
+use Illuminate\Support\Facades\DB;
 
 class IncomingRequestController extends Controller
 {
@@ -58,13 +59,23 @@ class IncomingRequestController extends Controller
         }
 
         if ($request->hasFile('picture')) {
-            $path = $request->file('picture')->store('public/pictures'); // Store in public directory
-            $validated['picture'] = str_replace('public/', '', $path); // Remove 'public/' from the path
+            $path = $request->file('picture')->store('public/pictures');
+            $validated['picture'] = str_replace('public/', '', $path);
         }
 
-        IncomingRequest::create($validated);
+        DB::beginTransaction();
 
-        return redirect()->route('requests.index')->with('success', 'Request submitted successfully!');
+        try {
+            IncomingRequest::create($validated);
+            DB::commit();
+
+            return redirect(route('requests.index'))->with('added', 'Data updates has been saved');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect(route('requests.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
     }
 
     /**

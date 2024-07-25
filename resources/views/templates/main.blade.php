@@ -95,6 +95,7 @@
 
     <!-- App Script -->
     <script src="../assets/js/hope-ui.js" defer></script>
+    <script src="../assets/js/alert.js"></script>
 
     
 

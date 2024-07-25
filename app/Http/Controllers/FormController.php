@@ -38,7 +38,7 @@ class FormController extends Controller
         try {
             Form::create($validated);
             DB::commit();
-            return redirect(route('forms.index'));
+            return redirect(route('forms.index'))->with('added', 'Data has been added succesfully');
             
         } catch (\Exception $e) {
             DB::rollBack();
@@ -73,7 +73,7 @@ class FormController extends Controller
         try {
             $form->update($validated);
             DB::commit();
-            return redirect(route('forms.index'));
+            return redirect(route('forms.index'))->with('saved', 'Data updates has been saved');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -91,7 +91,7 @@ class FormController extends Controller
     try {
         $form->delete();
         DB::commit();
-        return redirect(route('forms.index'));
+        return redirect(route('forms.index'))->with('deleted', 'Data has been deleted');
 
     } catch (\Exception $e) {
         DB::rollBack(); 

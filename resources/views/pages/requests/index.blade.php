@@ -13,16 +13,6 @@
                   </div>
               </div>
               <div class="card-body">
-               @if ($errors->any())
-                   <div class="alert alert-danger">
-                       <ul>
-                           @foreach ($errors->all() as $error)
-                               <li>{{ $error }}</li>
-                           @endforeach
-                       </ul>
-                   </div>
-               @endif
-
                     <div class="row">
                         @forelse($request as $request)
                             <div class="col-md-4 mb-4">
@@ -63,6 +53,37 @@
                 </div>
              </div>
              <div class="card-body">
+                @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <ul style="list-style-type: >">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @elseif (session()->has('added'))
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('added') }}
+                                </div>
+                            </div>
+                        @elseif (session()->has('saved'))
+                            <div class="alert alert-primary alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('saved') }}
+                                </div>
+                            </div>
+                        @elseif (session()->has('deleted'))
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('deleted') }}
+                                </div>
+                            </div>
+                        @endif
                 <div class="table-responsive">
                   <table id="datatable" class="table table-striped" data-toggle="data-table">
                      <thead>

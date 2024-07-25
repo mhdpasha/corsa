@@ -26,6 +26,37 @@
                 </div>
              </div>
              <div class="card-body">
+               @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <ul style="list-style-type: >">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @elseif (session()->has('added'))
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('added') }}
+                                </div>
+                            </div>
+                        @elseif (session()->has('saved'))
+                            <div class="alert alert-primary alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('saved') }}
+                                </div>
+                            </div>
+                        @elseif (session()->has('deleted'))
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('deleted') }}
+                                </div>
+                            </div>
+                        @endif
                 <div class="table-responsive">
 
                    <table id="datatable" class="table table-striped" data-toggle="data-table">
@@ -54,7 +85,7 @@
                               <form action="{{ route('users.destroy', $user) }}" method="POST">
                                  @csrf
                                  @method('DELETE')
-                                   <button type="submit" class="btn btn-sm btn-soft-warning">
+                                   <button onclick="return confirm(`Are you sure you want to delete {{ $user->name }} ?`)" type="submit" class="btn btn-sm btn-soft-warning">
                                      Delete
                                   </button>
                                </form>
@@ -149,7 +180,7 @@
             <div class="row">
                <div class="col-md-6">
                    <label for="name" class="form-label">Name</label>
-                   <input type="text" class="form-floating" id="name" name="name" autocomplete="off">
+                   <input type="text" class="form-control" id="name" name="name" autocomplete="off">
                </div>
                <div class="col-md-6">
                    <label for="department" class="form-label"><Datag></Datag>Department</label>
@@ -173,7 +204,7 @@
                   <option value="admin">Admin</option>
                </select>
            </div>
-           <button type="submit" class="btn btn-soft-primary mt-5 mb-1 w-100" id="submitBtn">Save</button>
+           <button type="submit" class="btn btn-soft-primary mt-5 mb-1 w-100" id="submitBtn">Submit</button>
          </form>
      </div>
    </div>

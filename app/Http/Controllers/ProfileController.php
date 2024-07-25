@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -54,9 +55,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user = User::find($request->id);
-        $user->update($request->all());
-        return redirect()->back();
+        DB::beginTransaction();
+
+        try {
+            User::find($request->id)->update($request->all());
+            DB::commit();
+            
+            return redirect(route('profile.index'))->with('saved', 'Data updates has been saved');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect(route('profile.index'))->with('error', 'Failed to add form: ' . $e->getMessage());
+        }
+        
     }
 
     /**

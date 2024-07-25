@@ -95,6 +95,23 @@
                          <button type="submit" class="btn btn-soft-primary w-100">Save</button>
                       </form>
                    </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <ul style="list-style-type: >">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @elseif (session()->has('saved'))
+                            <div class="alert alert-primary alert-dismissible fade show mt-4" role="alert"
+                                data-dismiss="alert" style="cursor: pointer;">
+                                <div class="d-flex items-center justify-content-center">
+                                    {{ session('saved') }}
+                                </div>
+                            </div>
+                        @endif
                 </div>
              </div>
           </div>
