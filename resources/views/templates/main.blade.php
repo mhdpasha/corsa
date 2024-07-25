@@ -5,9 +5,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Corsa App</title>
 
-      {{-- Datatables CSS --}}
+      {{-- Datatables CSS
       <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
-      <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.dataTables.css"> --}}
 
       <!-- Favicon -->
       <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
@@ -56,14 +56,6 @@
         @yield('content')
       <!-- Footer Section End -->
     </main>
-
-
-
-     {{-- <a class="btn btn-fixed-end btn-secondary btn-icon btn-dashboard" href="../landing-pages/index.html">
-      Landing Pages
-    </a> --}}
-
-
 
     <!-- Wrapper End-->
 
