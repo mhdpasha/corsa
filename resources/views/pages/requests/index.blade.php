@@ -64,11 +64,24 @@
              </div>
              <div class="card-body">
                 <div class="table-responsive">
-
+                  <table id="datatable" class="table table-striped" data-toggle="data-table">
+                     <thead>
+                        <tr>
+                          <th style="max-width: 1px"></th>
+                          <th style="max-width: 10px">Requestor</th>
+                          <th style="max-width: 10px">Dept</th>
+                          <th style="max-width: 10px">Location</th>
+                          <th style="max-width: 10px">Title</th>
+                          <th style="max-width: 10px" class="text-center"></th>
+                          <th style="max-width: 10px" class="text-center">Status</th>
+                          <th style="max-width: 10px">Date</th>
+                          <th st   yle="max-width: 10px">Action</th>
+                        </tr>
+                     </thead>
                    
-                  @livewire('request-table')
+                     @livewire('request-table')
 
-
+                  </table>
                 </div>
              </div>
           </div>
@@ -129,17 +142,55 @@
      </div>
    </div>
  </div>
+ 
 
  <script>
    document.addEventListener('DOMContentLoaded', function() {
        const urlParams = new URLSearchParams(window.location.search)
-       if (urlParams.has('openModal') && urlParams.get('openModal') === 'true') {
+         if (urlParams.has('openModal') && urlParams.get('openModal') === 'true') {
            let reqModal = new bootstrap.Modal(document.getElementById('addModal'), {
                keyboard: false
            })
            reqModal.show()
        }
-   })
+
+         let timeout;
+         let debounceTimeout;
+
+         function debounce(func, wait) {
+             return function(...args) {
+                 clearTimeout(debounceTimeout);
+                 debounceTimeout = setTimeout(() => func.apply(this, args), wait);
+             };
+         }
+
+         function handleInactivity() {
+             window.alert('Inactive, redirecting to dashboard')
+             window.location.href = '/dashboard';
+         }
+
+         function resetTimer() {
+             if (timeout) {
+                 clearTimeout(timeout);
+             }
+             console.log('triggereed   ')
+             timeout = setTimeout(handleInactivity, 60000); // 60 seconds timeout
+         }
+
+         const debouncedResetTimer = debounce(resetTimer, 200);
+
+         document.addEventListener('DOMContentLoaded', resetTimer);
+         document.addEventListener('mousemove', debouncedResetTimer);
+         document.addEventListener('keypress', debouncedResetTimer);
+         document.addEventListener('touchstart', debouncedResetTimer);
+         document.addEventListener('click', debouncedResetTimer);
+
+         document.addEventListener('visibilitychange', function() {
+             if (document.visibilityState === 'visible') {
+                 resetTimer(); 
+             }
+         });
+})
 </script>
 
 @endsection

@@ -1,24 +1,7 @@
-
-    <table wire:poll="fetchData" id="datatable" class="table table-striped" data-toggle="data-table">
-        <thead>
-           <tr>
-             <th style="max-width: 1px"></th>
-             <th style="max-width: 10px">Requestor</th>
-             <th style="max-width: 10px">Dept</th>
-             <th style="max-width: 10px">Location</th>
-             <th style="max-width: 10px">Title</th>
-             <th style="max-width: 10px" class="text-center"></th>
-             <th style="max-width: 10px" class="text-center">Status</th>
-             <th style="max-width: 10px">Date</th>
-             <th st   yle="max-width: 10px">Action</th>
-           </tr>
-        </thead>
-        <tbody>
+    <tbody wire:poll.5000ms="fetchData" >
           @foreach ($datas as $data)
           <tr>
-             <td>
-                {{ $loop->iteration }}
-             </td>
+             <td>{{ $loop->iteration }}</td>
              <td>{{ $data->requestor->name }}</td>
              <td>{{ $data->type }}</td>
              <td>{{ $data->location }}</td>
@@ -50,5 +33,3 @@
           </tr>
           @endforeach
         </tbody>
-     </table>
-

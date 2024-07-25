@@ -416,8 +416,8 @@
                     <div class="p-4 border border-white rounded primary-gradient-card">
                        <div class="d-flex justify-content-between align-items-center">
                           <div>
-                             <h5 class="font-weight-bold">VISA </h5>
-                             <P class="mb-0">PREMIUM ACCOUNT</P>  
+                             <h5 class="font-weight-bold">CORSA </h5>
+                             <P class="mb-0">{{ strtoupper(auth()->user()->role) }} ACCOUNT</P>  
                           </div>
                           <div class="master-card-content">
                              <svg class="master-card-1 icon-60" width="60"  viewBox="0 0 24 24">

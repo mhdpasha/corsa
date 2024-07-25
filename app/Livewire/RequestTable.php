@@ -16,9 +16,10 @@ class RequestTable extends Component
 
     public function fetchData()
     {
-        $this->datas =  IncomingRequest::with(['requestor', 'receiver'])
+        $this->datas = IncomingRequest::with(['requestor:id,name', 'receiver:id,name'])
                         ->orderBy('id', 'desc')
-                        ->get();
+                        ->where('status', '!=', 'cleared')
+                        ->get(['id', 'requestor_id', 'receiver_id', 'type', 'location', 'title', 'picture', 'status', 'created_at', 'slug']);
     }
 
     public function render()
