@@ -39,44 +39,57 @@
                     
                     
                     <div id="chat-messages" class="mb-5 mt-5">
-                        <!-- Message from Self (User 1) -->
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="p-3 bg-light rounded" style="max-width: 60%;">
-                                <h5 class="fw-bold mb-2">{{ $data->requestor->name }} ({{ $data->requestor->department }})</h5>
-                                <a href="{{ url('storage/'.$data->picture) }}">
-                                    <img src="{{ asset('storage/'.$data->picture) }}" alt="pic" height="auto" width="300px" class="rounded m-4">
-                                </a>
-                                <p class="text-black mb-0">{{ $data->description }}<span class="float-end fs-6 text-secondary fw-lighter">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
+
+                        <!-- Init Message-->
+                        @if($data->requestor->id == auth()->user()->id)
+                            <div class="d-flex justify-content-end mb-4 text-white">
+                                <div class="p-3 bg-primary rounded" style="max-width: 60%;">
+                                    <h5 class="fw-bold mb-2 text-white">Me</h5>
+                                    @if($data->picture)
+                                    <a href="{{ url('storage/'.$data->picture) }}">
+                                        <img src="{{ asset('storage/'.$data->picture) }}" alt="pic" height="auto" width="300px" class="rounded m-4">
+                                    </a>
+                                    @else
+                                    <p class="m-5 opacity-75">No picture provided</p>
+                                    @endif
+                                    <p class="mb-0">{{ $data->description }}<span class="float-end fs-6 fw-lighter ms-5">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
+                                </div>
                             </div>
-                        </div>
-                        {{-- <!-- Message from Self (User 2) -->
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="p-3 bg-primary text-white rounded" style="max-width: 80%;">
-                                <h5 class="fw-bold text-white mb-2">Me</h5>
-                                Hi John! How can I help you today?
+                        @else
+                            <div class="d-flex justify-content-start mb-4">
+                                <div class="p-3 bg-light rounded" style="max-width: 60%;">
+                                    <h5 class="fw-bold mb-2">{{ $data->requestor->name }} ({{ $data->requestor->department }})</h5>
+                                    @if($data->picture)
+                                    <a href="{{ url('storage/'.$data->picture) }}">
+                                        <img src="{{ asset('storage/'.$data->picture) }}" alt="pic" height="auto" width="300px" class="rounded m-4">
+                                    </a>
+                                    @else
+                                    <p class="m-5 opacity-75">No picture provided</p>
+                                    @endif
+                                    <p class="text-black mb-0">{{ $data->description }}<span class="float-end fs-6 text-secondary fw-lighter">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Message from Self (User 1) -->
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="p-3 bg-light rounded" style="max-width: 80%;">
-                                <h5 class="fw-bold mb-2">{{ $data->receiver->name }} ({{ $data->receiver->department }})</h5>
-                                I'm having some issues with my account. I can't seem to log in and I've tried resetting my password multiple times. Can you assist me with this?
-                            </div>
-                        </div>
-                        <!-- Message from Self (User 2) -->
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="p-3 bg-primary text-white rounded" style="max-width: 80%;">
-                                <h5 class="fw-bold text-white mb-2">Me</h5>
-                                Sure, let me check your account details. One moment, please.
-                            </div>
-                        </div>
-                        <!-- Message from User 2 (continued) -->
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="p-3 bg-primary text-white rounded" style="max-width: 80%;">
-                                <h5 class="fw-bold text-white mb-2">Me</h5>
-                                It seems there was a temporary lock on your account due to multiple failed login attempts. I've reset it for you. Please try logging in again now.
-                            </div>
-                        </div> --}}
+                        @endif
+
+                        @foreach ( $messages as $message)
+
+                            @if($message->user->id == auth()->user()->id)
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="p-3 bg-primary text-white rounded" style="max-width: 80%;">
+                                        <h5 class="fw-bold text-white mb-2">Me</h5>
+                                        {{ $message->content }} <span class="float-end fs-6 fw-lighter ms-5 mb-0">{{ $message->created_at->translatedFormat('H:i') }}</span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="d-flex justify-content-start mb-4">
+                                    <div class="p-3 bg-light text-black rounded" style="max-width: 80%;">
+                                        <h5 class="fw-bold text-black mb-2">{{ $message->user->name }} ({{ $message->user->department }})</h5>
+                                        {{ $message->content }} <span class="float-end fs-6 text-secondary fw-lighter ms-5">{{ $message->updated_at->translatedFormat('H:i') }}</span>
+                                    </div>
+                                </div>
+                            @endif
+
+                        @endforeach
                     </div>
                     <div class="container mt-4">
                         <div class="row g-2">

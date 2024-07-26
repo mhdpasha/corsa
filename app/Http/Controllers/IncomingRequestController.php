@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\Message;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\IncomingRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreIncomingRequestRequest;
 use App\Http\Requests\UpdateIncomingRequestRequest;
-use Illuminate\Support\Facades\DB;
 
 class IncomingRequestController extends Controller
 {
@@ -25,7 +26,7 @@ class IncomingRequestController extends Controller
 
         return view('pages.requests.index', [
             'request' => $checkUserRequest,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -84,7 +85,12 @@ class IncomingRequestController extends Controller
     public function show($slug)
     {
         $data = IncomingRequest::where('slug', $slug)->first();
-        return view('pages.requests.show', ['data' => $data]);
+        $messages = Message::where('request_id', $data->id)->with('user')->get();
+
+        return view('pages.requests.show',[
+            'data' => $data,
+            'messages' => $messages
+        ]);
     }
 
     /**

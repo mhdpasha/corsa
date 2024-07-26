@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Form;
 use App\Models\User;
+use App\Models\Message;
 use Illuminate\Support\Str;
 use App\Models\IncomingRequest;
 use Illuminate\Database\Seeder;
@@ -40,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'view_password' => 'kevin123',
             'role' => 'admin',
         ]);
-        IncomingRequest::create([
+        $request1 = IncomingRequest::create([
             'status' => 'cleared',
             'type' => 'Maintenance',
             'title' => 'Window Broken',
@@ -51,27 +52,38 @@ class DatabaseSeeder extends Seeder
             'receiver_id' => $user2->id,
             'slug' =>  Str::orderedUuid()
         ]);
-        IncomingRequest::create([
+        $request2 = IncomingRequest::create([
             'status' => 'accepted',
             'type' => 'Housekeeping',
             'title' => 'Bedsheets',
             'location' => 'Room 303',
             'description' => 'Bedsheets Torn',
-            'picture' => 'yes',
+            'picture' => null,
             'requestor_id' => $user2->id,
             'receiver_id' => $user1->id,
             'slug' =>  Str::orderedUuid()
         ]);
-        IncomingRequest::create([
+        $request3 = IncomingRequest::create([
             'status' => 'new',
             'type' => 'Lost and Found',
             'title' => 'Locker',
             'location' => 'Room 307',
             'description' => 'Locker broken',
-            'picture' => 'yes',
+            'picture' => null,
             'requestor_id' => $user3->id,
             'receiver_id' => $user2->id,
             'slug' =>  Str::orderedUuid()
+        ]);
+        
+        Message::create([
+            'user_id' => $user2->id,
+            'request_id' => $request3->id,
+            'content' => 'Kenapa locker nya mas Kevin?'
+        ]);
+        Message::create([
+            'user_id' => $user3->id,
+            'request_id' => $request3->id,
+            'content' => 'Kunci nya dol mas'
         ]);
 
         Form::create([
