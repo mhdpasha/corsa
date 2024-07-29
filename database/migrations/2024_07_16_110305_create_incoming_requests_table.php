@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('location');
             $table->string('description');
             $table->text('picture')->nullable();
-            $table->foreignid('requestor_id')->constrained('users')->nullable();
-            $table->foreignId('receiver_id')->constrained('users')->nullable();
+            $table->foreignid('requestor_id')->constrained('users');
+            $table->foreignId('receiver_id')->constrained('users');
             $table->string('slug');
             $table->timestamps();
         });

@@ -165,6 +165,6 @@
  </div>
  
 
-<script src="assets/js/request.script.js"></script>
+<script src="assets/js/request.js"></script>
 
 @endsection

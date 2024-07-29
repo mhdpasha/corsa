@@ -13,9 +13,9 @@ class SendMessage extends Component
         'content' => 'required|max:255',
     ];
 
-    public function mount($requestId)
+    public function mount()
     {
-        $this->requestId = $requestId;
+        $requestId = $this->requestId;
     }
 
     public function sendMessage()

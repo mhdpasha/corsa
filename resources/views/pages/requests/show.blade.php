@@ -25,18 +25,8 @@
                     <div class="mx-auto text-center fw-bold w-100">
                         Chat Room
                     </div>
-                    <div class="mx-auto text-center fw-bold w-100">
-                        @if ($data->status == 'new')
-                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> NEW </span>
-                              @elseif ($data->status == 'accepted')
-                              <span class="badge rounded-pill bg-soft-success" style="min-width: 60px;"> ACPT </span>
-                              @elseif ($data->status == 'assigned')
-                              <span class="badge rounded-pill bg-soft-danger" style="min-width: 60px;"> ASGN </span>
-                              @elseif ($data->status == 'cleared')
-                              <span class="badge rounded-pill bg-soft-primary" style="min-width: 60px;"> CLEAR </span>
-                              @endif
-                    </div>
                     
+                    @livewire('status-update', ['request' => $data])
                     
                     <div id="chat-messages" class="mb-5 mt-5">
 
@@ -74,17 +64,7 @@
                         @livewire('chat-message', ['requestId' => $data->id])
                     </div>
                     <div class="container mt-4">
-                        <div class="row g-2">
-                            @if($data->status == 'new')
-                            <div class="col-12 col-md-auto">
-                                <button id="accept-chat" class="btn btn-soft-success w-100">Accept</button>
-                            </div>
-                            <div class="col-12 col-md-auto">
-                                <button id="assign-chat" class="btn btn-soft-warning w-100">Assign</button>
-                            </div>
-                            @endif
-                            @livewire('send-message', ['requestId' => $data->id])
-                        </div>
+                        @livewire('task-control', ['request' => $data])
                     </div>
                     
                 </div>
@@ -94,6 +74,57 @@
     </div>
 </div>
 
-<script src="assets/js/chatroom.script.js"></script>
+
+        <!-- Modal -->
+        <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="assignModalLabel">Add new request</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <h1>asd</h1>
+              </div>
+            </div>
+          </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+let timeout
+let debounceTimeout
+
+function debounce(func, wait) {
+    return function(...args) {
+        clearTimeout(debounceTimeout)
+        debounceTimeout = setTimeout(() => func.apply(this, args), wait)
+    }
+}
+
+function handleInactivity() {
+    window.alert('Inactive. redirecting to requests list')
+    window.location.href = '/requests'
+}
+
+function resetTimer() {
+    if (timeout) {
+        clearTimeout(timeout)
+    }
+    console.log('triggered')
+    timeout = setTimeout(handleInactivity, 20000) // 20 seconds timeout
+}
+const debouncedResetTimer = debounce(resetTimer, 200)
+document.addEventListener('DOMContentLoaded', resetTimer)
+document.addEventListener('mousemove', debouncedResetTimer)
+document.addEventListener('keypress', debouncedResetTimer)
+document.addEventListener('touchstart', debouncedResetTimer)
+document.addEventListener('click', debouncedResetTimer)
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        resetTimer() 
+    }
+})
+})
+</script>
 
 @endsection
