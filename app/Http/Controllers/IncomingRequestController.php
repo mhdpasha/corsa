@@ -49,7 +49,7 @@ class IncomingRequestController extends Controller
             'location' => 'required',
             'description' => 'required',
             'requestor_id' => 'required',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192', // Validate image, max 8MB (8192 KB)
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
         ]);
 
         $validated['status'] = 'new';
@@ -70,7 +70,7 @@ class IncomingRequestController extends Controller
             IncomingRequest::create($validated);
             DB::commit();
 
-            return redirect(route('requests.index'))->with('added', 'Data updates has been saved');
+            return redirect(route('requests.index'))->with('added', 'New request has been saved');
             
         } catch (\Exception $e) {
             DB::rollBack();
@@ -85,11 +85,11 @@ class IncomingRequestController extends Controller
     public function show($slug)
     {
         $data = IncomingRequest::where('slug', $slug)->first();
-        $messages = Message::where('request_id', $data->id)->with('user')->get();
+        // $messages = Message::where('request_id', $data->id)->with('user')->get();
 
         return view('pages.requests.show',[
             'data' => $data,
-            'messages' => $messages
+            // 'messages' => $messages
         ]);
     }
 

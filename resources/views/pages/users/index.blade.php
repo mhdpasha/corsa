@@ -180,17 +180,17 @@
             <div class="row">
                <div class="col-md-6">
                    <label for="name" class="form-label">Name</label>
-                   <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+                   <input type="text" class="form-control" id="name" name="name" autocomplete="off" value="{{ old('name') }}">
                </div>
                <div class="col-md-6">
                    <label for="department" class="form-label"><Datag></Datag>Department</label>
-                   <input type="text" class="form-control" id="department" name="department" autocomplete="off">
+                   <input type="text" class="form-control" id="department" name="department" autocomplete="off" value="{{ old('department') }}">
                </div>
             </div>
             <div class="row mt-3">
                <div class="col-md-6">
                    <label for="email" class="form-label">Email</label>
-                   <input type="email" class="form-control" id="email" name="email" autocomplete="off">
+                   <input type="email" class="form-control" id="email" name="email" autocomplete="off" value="{{ old('email') }}">
                </div>
                <div class="col-md-6">
                    <label for="password" class="form-label" id="togglePassword" >Password</label>

@@ -123,17 +123,17 @@
             <div class="row mt-3">
                <div class="col-md-6">
                    <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                   <input type="text" class="form-control" id="title" name="title" placeholder="What happened?" autocomplete="off">
+                   <input type="text" class="form-control" id="title" name="title" placeholder="What happened?" autocomplete="off" value="{{ old('title') }}">
                </div>
                <div class="col-md-6">
                    <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
-                   <input type="text" class="form-control" id="description" name="description" placeholder="Short description" autocomplete="off">
+                   <input type="text" class="form-control" id="description" name="description" placeholder="Short description" autocomplete="off" value="{{ old('description') }}">
                </div>
            </div>
             <div class="row mt-3">
                <div class="col-md-6">
                   <label for="exampleDataList" class="form-label">Location <span class="text-danger">*</span></label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to or select" name="location">
+                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to or select" name="location" value="{{ old('location') }}">
                   <datalist id="datalistOptions">
                     @foreach ($form as $location)
                      <option value="{{ $location->location }}">
@@ -165,53 +165,6 @@
  </div>
  
 
- <script>
-   document.addEventListener('DOMContentLoaded', function() {
-       const urlParams = new URLSearchParams(window.location.search)
-         if (urlParams.has('openModal') && urlParams.get('openModal') === 'true') {
-           let reqModal = new bootstrap.Modal(document.getElementById('addModal'), {
-               keyboard: false
-           })
-           reqModal.show()
-       }
-
-         let timeout;
-         let debounceTimeout;
-
-         function debounce(func, wait) {
-             return function(...args) {
-                 clearTimeout(debounceTimeout);
-                 debounceTimeout = setTimeout(() => func.apply(this, args), wait);
-             };
-         }
-
-         function handleInactivity() {
-             window.alert('Inactive, redirecting to dashboard')
-             window.location.href = '/dashboard';
-         }
-
-         function resetTimer() {
-             if (timeout) {
-                 clearTimeout(timeout);
-             }
-             console.log('triggereed   ')
-             timeout = setTimeout(handleInactivity, 60000); // 60 seconds timeout
-         }
-
-         const debouncedResetTimer = debounce(resetTimer, 200);
-
-         document.addEventListener('DOMContentLoaded', resetTimer);
-         document.addEventListener('mousemove', debouncedResetTimer);
-         document.addEventListener('keypress', debouncedResetTimer);
-         document.addEventListener('touchstart', debouncedResetTimer);
-         document.addEventListener('click', debouncedResetTimer);
-
-         document.addEventListener('visibilitychange', function() {
-             if (document.visibilityState === 'visible') {
-                 resetTimer(); 
-             }
-         });
-})
-</script>
+<script src="assets/js/request.script.js"></script>
 
 @endsection

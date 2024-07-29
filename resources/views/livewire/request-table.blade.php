@@ -28,7 +28,7 @@
              </td>
              <td>{{ $data->detailed_created_at }}</td>
              <td class="flex">
-                <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-soft-primary">Detail</a>
+                <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-soft-primary">Chatroom</a>
              </td>
           </tr>
           @endforeach

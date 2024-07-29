@@ -136,11 +136,11 @@
              <div class="row">
                  <div class="col-md-6">
                      <label for="location" class="form-label">Location</label>
-                     <input type="text" class="form-control" id="location" name="location" autocomplete="off">
+                     <input type="text" class="form-control" id="location" name="location" autocomplete="off" value="{{ old('location') }}">
                  </div>
                  <div class="col-md-6">
                      <label for="floor" class="form-label">Floor</label>
-                     <input type="text" class="form-control" id="floor" name="floor" autocomplete="off">
+                     <input type="text" class="form-control" id="floor" name="floor" autocomplete="off" value="{{ old('floor') }}">
                  </div>
               </div>
              <button type="submit" class="btn btn-soft-primary mt-5 mb-1 w-100" id="submitBtn">Submit</button>
