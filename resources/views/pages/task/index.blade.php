@@ -36,15 +36,22 @@
                     <div class="row">
                         <p>Assigned to: <strong>{{ auth()->user()->name }}</strong></p>
                         @forelse($tasks as $task)
-                            <div class="col-md-4 mt-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5>{{ $task->title }}</h5>
-                                        <p>{{ $task->description }}</p>
-                                        <p>{{ $task->created_at->format('d M Y') }}</p>
+                        <div class="col-md-4 mt-3">
+                            <div class="card">
+                                <a href="{{ route('requests.show', $task->slug) }}" >
+                                    <div class="card-body text-black">
+                                        <h4>{{ $task->title }} - {{ $task->location }}</h4>
+                                        <p class="opacity-50">{{ $task->description }}</p>
+                                        <p>{{ $task->created_at->translatedFormat('j F Y') }}</p>
                                     </div>
+                                </a>
+                                <div class="card-footer">
+                                    <a href="{{ route('requests.show', $task->slug) }}">
+                                        <button class="btn btn-soft-primary w-100">Chatroom</button>
+                                    </a>
                                 </div>
-                            </div>
+                            </div> 
+                        </div>
                            @empty
                            <p class="text-center pb-3">No active tasks found.</p>
                         @endforelse

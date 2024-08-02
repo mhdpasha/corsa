@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Message;
 use Livewire\Component;
+use App\Models\IncomingRequest;
 use Illuminate\Support\Facades\DB;
 
 class TaskControl extends Component
@@ -15,22 +16,24 @@ class TaskControl extends Component
         $user = auth()->user();
 
         if($this->request->status != 'new') {
-            return redirect(url("requests/{$this->request->slug}"));
+            return redirect(url("requests/{$this->request->slug}?failQuery=true"));
         }
 
         DB::transaction(function () use ($user) {
 
-            $request = DB::table('incoming_requests')->where('id', $this->request->id)->lockForUpdate()->first();
+            $request = IncomingRequest::where('id', $this->request->id)
+                                      ->lockForUpdate()
+                                      ->firstOrFail();
 
-            $this->request->update([
+            $request->update([
                 'receiver_id' => $user->id,
                 'status' => 'accepted',
             ]);
 
             Message::create([
                 'user_id' => $user->id,
-                'request_id' => $this->request->id,
-                'content' => "SYSTEM: Accepted by {$user->name}",
+                'request_id' => $request->id,
+                'content' => "[ SYSTEM ] " . date('d-m-Y H:i:s') . ": Request has been accepted by {$user->name}",
             ]);
 
             $this->dispatch('render');

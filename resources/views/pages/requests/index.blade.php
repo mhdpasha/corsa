@@ -6,7 +6,7 @@
           <div class="card">
               <div class="card-body d-flex justify-content-between align-items-center">
                   <div class="card-title mb-0">
-                      <h4 class="mb-0">Active Requests</h4>
+                      <h4 class="mb-0">Your Requests</h4>
                   </div>
                   <div class="card-action">
                       <a href="/timeline" class="btn btn-primary" role="button">See Timeline</a>
@@ -15,14 +15,25 @@
               <div class="card-body">
                     <div class="row">
                         @forelse($request as $request)
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-4 mt-3">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <h5>{{ $request->title }}</h5>
-                                        <p>{{ $request->description }}</p>
-                                        <p>{{ $request->created_at->format('d M Y') }}</p>
+                                    <a href="{{ route('requests.show', $request->slug) }}" >
+                                        <div class="card-body text-black">
+                                            <h4>{{ $request->title }} - {{ $request->location }}</h4>
+                                            <p class="opacity-50">{{ $request->description }}</p>
+                                            <p>{{ $request->created_at->translatedFormat('j F Y') }}</p>
+                                        </div>
+                                    </a>
+                                    <div class="card-footer">
+                                        <form action="{{ route('requests.update', $request) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="request_id" value="{{ $request->id }}">
+                                            <input type="hidden" name="cleared" value="cleared">
+                                            <button class="btn btn-soft-success w-100">Mark as Done</button>
+                                        </form>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                            @empty
                            <p class="text-center pb-3">No active requests found.</p>

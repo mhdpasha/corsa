@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\User;
 use App\Models\Message;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -10,9 +11,13 @@ use App\Models\IncomingRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreIncomingRequestRequest;
 use App\Http\Requests\UpdateIncomingRequestRequest;
+use App\Traits\CheckStatus;
 
 class IncomingRequestController extends Controller
 {
+
+    use CheckStatus;
+
     /**
      * Display a listing of the resource.
      */
@@ -85,11 +90,13 @@ class IncomingRequestController extends Controller
     public function show($slug)
     {
         $data = IncomingRequest::where('slug', $slug)->first();
-        // $messages = Message::where('request_id', $data->id)->with('user')->get();
+
+        $excluded = [auth()->id(), $data->requestor_id];
+        $users = User::whereNotIn('id', $excluded)->get();
 
         return view('pages.requests.show',[
             'data' => $data,
-            // 'messages' => $messages
+            'users' => $users
         ]);
     }
 
@@ -104,9 +111,31 @@ class IncomingRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIncomingRequestRequest $request, IncomingRequest $incomingRequest)
+    public function update(Request $request)
     {
-        //
+        $incomingRequest    = IncomingRequest::find($request->request_id);
+
+        $this->taskIsClear($incomingRequest, $request);
+
+        if($incomingRequest->status != 'new') {
+            return redirect(url("requests/{$request->slug}?failQuery=true"));
+        }
+        
+        $sender             = User::find(auth()->id());
+        $assigned           = User::find($request->receiver_id);
+        
+        $incomingRequest->update([
+            'receiver_id' => $request->receiver_id,
+            'status' => 'assigned'
+        ]);
+
+        Message::create([
+            'user_id' => $sender->id,
+            'request_id' => $request->request_id,
+            'content' => "[ SYSTEM ] " . date('d-m-Y H:i:s') . ": {$sender->name} has assigned this request to {$assigned->name}"
+        ]);
+
+        return redirect()->back();
     }
 
     /**
