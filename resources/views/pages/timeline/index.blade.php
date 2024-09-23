@@ -10,7 +10,7 @@
                             <h4 class="mb-0">Ongoing Requests</h4>
                         </div>
                         <div class="card-action">
-                            <a href="/requests" class="btn btn-primary" role="button">See Request</a>
+                            <a href="/requests" class="btn btn-primary" role="button">See Requests</a>
                         </div>
                     </div>
                 </div>

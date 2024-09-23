@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\IncomingRequest;
 
 class ReportController extends Controller
 {
@@ -11,7 +12,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('pages.report.index');
+        return view('pages.report.index', [
+            'datas' => IncomingRequest::orderBy('id', 'desc')->get()
+        ]);
     }
 
     /**

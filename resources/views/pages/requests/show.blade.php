@@ -31,43 +31,36 @@
 
                             <div id="chat-messages" class="mb-5 mt-5">
 
-                                <!-- Init Message-->
                                 @if ($data->requestor->id == auth()->id())
                                     <div class="d-flex justify-content-end mb-4 text-white">
                                         <div class="p-3 bg-primary rounded" style="max-width: 60%;">
                                             <h5 class="fw-bold mb-2 text-white">Me</h5>
                                             @if ($data->picture)
                                                 <a href="{{ url('storage/' . $data->picture) }}">
-                                                    <img src="{{ asset('storage/' . $data->picture) }}" alt="pic"
-                                                        height="auto" width="300px" class="rounded m-4">
+                                                    <img src="{{ asset('storage/' . $data->picture) }}" alt="pic" class="img-fluid rounded my-4">
                                                 </a>
                                             @else
                                                 <p class="m-3 opacity-75">No picture provided</p>
                                             @endif
-                                            <p class="mb-0">{{ $data->description }}<span
-                                                    class="float-end fs-6 fw-lighter ms-5">{{ $data->updated_at->translatedFormat('H:i') }}</span>
-                                            </p>
+                                            <p class="mb-0">{{ $data->description }}<span class="float-end fs-6 fw-lighter ms-5">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
                                         </div>
                                     </div>
                                 @else
                                     <div class="d-flex justify-content-start mb-4">
                                         <div class="p-3 bg-light rounded" style="max-width: 60%;">
-                                            <h5 class="fw-bold mb-2">{{ $data->requestor->name }}
-                                                ({{ $data->requestor->department }})</h5>
+                                            <h5 class="fw-bold mb-2">{{ $data->requestor->name }} ({{ $data->requestor->department }})</h5>
                                             @if ($data->picture)
                                                 <a href="{{ url('storage/' . $data->picture) }}">
-                                                    <img src="{{ asset('storage/' . $data->picture) }}" alt="pic"
-                                                        height="auto" width="300px" class="rounded m-4">
+                                                    <img src="{{ asset('storage/' . $data->picture) }}" alt="pic" class="img-fluid rounded my-4">
                                                 </a>
                                             @else
                                                 <p class="m-3 opacity-75">No picture provided</p>
                                             @endif
-                                            <p class="text-black mb-0">{{ $data->description }}<span
-                                                    class="float-end fs-6 text-secondary fw-lighter">{{ $data->updated_at->translatedFormat('H:i') }}</span>
-                                            </p>
+                                            <p class="text-black mb-0">{{ $data->description }}<span class="float-end fs-6 text-secondary fw-lighter">{{ $data->updated_at->translatedFormat('H:i') }}</span></p>
                                         </div>
                                     </div>
                                 @endif
+
 
                                 @livewire('chat-message', ['requestId' => $data->id])
                             </div>

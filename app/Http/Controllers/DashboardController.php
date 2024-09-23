@@ -17,6 +17,7 @@ class DashboardController extends Controller
             'active' => IncomingRequest::whereNotIn('status', ['cleared', 'new'])->count(),
             'new' => IncomingRequest::where('status', 'new')->count(),
             'cleared' => IncomingRequest::where('status', 'cleared')->count(),
+            'latest' => IncomingRequest::orderByDesc('created_at')->limit(5)->get()
         ];
 
         return view('pages.dashboard.index', compact('data'));
