@@ -23,10 +23,16 @@
                   <div class="header-title d-flex justify-content-between w-100">
   
                     <div>
-                       <button type="button" class="btn btn-soft-success" data-bs-toggle="modal" data-bs-target="#addModal">
-                          Export to Excel
-                       </button>
-                    </div>
+                        <button type="button" class="btn btn-soft-success d-flex align-items-center justify-content-center" onclick="exportTableToExcel('datatable')">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload me-2">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                              <path d="M7 9l5 -5l5 5" />
+                              <path d="M12 4l0 12" />
+                           </svg>
+                           Export to Excel
+                        </button>
+                     </div>
   
                   </div>
                </div>
@@ -74,7 +80,7 @@
                             <th style="max-width: 10px" class="text-center"></th>
                             <th style="max-width: 10px" class="text-center">Status</th>
                             <th style="max-width: 10px">Date</th>
-                            <th st   yle="max-width: 10px">Action</th>
+                            <th style="max-width: 10px">Action</th>
                           </tr>
                        </thead>
                      
@@ -120,9 +126,75 @@
             </div>
          </div>
       </div>
-</div>
+         </div>
     
 
     </div>
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    function exportTableToExcel(tableID) {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const formattedDate = dd + '/' + mm + '/' + yyyy;
+
+    const filename = 'Corsa Report (' + formattedDate + ').xlsx';
+
+    let table = document.getElementById(tableID);
+    let wb = XLSX.utils.book_new();
+
+    let ws_data = [];
+
+    const headerText = 'Corsa Report (' + formattedDate + ')';
+    ws_data.push([headerText]);
+
+    let headerRow = [];
+    for (let j = 0, col; col = table.rows[0].cells[j]; j++) {
+        if (j !== 5 && j !== 8) { 
+            headerRow.push(col.innerText || col.textContent);
+        }
+    }
+    ws_data.push(headerRow); 
+
+    for (let i = 1, row; row = table.rows[i]; i++) { 
+        let rowData = [];
+
+        for (let j = 0, col; col = row.cells[j]; j++) {
+            if (j !== 5 && j !== 8) { 
+                rowData.push(col.innerText || col.textContent);
+            }
+        }
+
+        ws_data.push(rowData);
+    }
+
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+    const numberOfColumns = headerRow.length; 
+    const mergeEndColumn = XLSX.utils.encode_col(numberOfColumns - 1); 
+    const mergeRange = `A1:${mergeEndColumn}1`; 
+    ws['!merges'] = [
+        {
+            s: { r: 0, c: 0 }, 
+            e: { r: 0, c: numberOfColumns - 1 } 
+        }
+    ];
+
+    ws['A1'].s = {
+        font: { bold: true, sz: 16 },
+        alignment: { horizontal: 'center', vertical: 'center' }
+    };
+
+    ws['!rows'] = [{ hpt: 20 }, ...Array(ws_data.length - 1).fill({})];
+
+    XLSX.utils.book_append_sheet(wb, ws, "Main Report");
+
+    XLSX.writeFile(wb, filename);
+}
+</script>
+
 @endsection

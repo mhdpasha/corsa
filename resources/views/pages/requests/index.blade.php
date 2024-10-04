@@ -20,18 +20,19 @@
                                     <a href="{{ route('requests.show', $request->slug) }}" >
                                         <div class="card-body text-black">
                                             <h4>{{ $request->title }} - {{ $request->location }}</h4>
-                                            <p class="opacity-50">{{ $request->description }}</p>
-                                            <p>{{ $request->created_at->translatedFormat('j F Y') }}</p>
+                                            <p class="mb-3">{{ $request->created_at->translatedFormat('j F Y') }}</p>
+                                            <p class="opacity-50 fs-sm">{{ $request->description }}</p>
                                         </div>
                                     </a>
-                                    <div class="card-footer">
-                                        <form action="{{ route('requests.update', $request) }}" method="POST">
+                                    <div class="card-footer d-flex gap-2">
+                                        <form class="w-100" action="{{ route('requests.update', $request) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <input type="hidden" name="request_id" value="{{ $request->id }}">
                                             <input type="hidden" name="cleared" value="cleared">
                                             <button onclick="return confirm(`Mark '{{ $request->title }}' as done?`)" class="btn btn-soft-success w-100">Mark as Done</button>
                                         </form>
+                                        <a href="{{ route('requests.show', $request->slug) }}" class="btn btn-soft-primary w-30">Chatroom</a>
                                     </div>
                                 </div> 
                             </div>

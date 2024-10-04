@@ -20,7 +20,12 @@ class DashboardController extends Controller
             'latest' => IncomingRequest::orderByDesc('created_at')->limit(5)->get()
         ];
 
-        return view('pages.dashboard.index', compact('data'));
+        $requests = IncomingRequest::where('status', 'new')->limit(10)->get();
+
+        $tasks = IncomingRequest::where('receiver_id', auth()->user()->id)
+                                ->whereIn('status', ['assigned', 'accepted'])->get();
+
+        return view('pages.dashboard.index', compact(['data', 'requests', 'tasks']));
     }
 
     /**

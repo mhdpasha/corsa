@@ -13,7 +13,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = IncomingRequest::where('receiver_id', auth()->user()->id)
-                                ->where('status', 'accepted')->get();
+                                ->whereIn('status', ['assigned', 'accepted'])->get();
 
         return view('pages.task.index', [
             'tasks' => $tasks
