@@ -27,6 +27,8 @@ class IncomingRequestController extends Controller
                                 ->where('requestor_id', auth()->user()->id)
                                 ->where('status', '!=', 'cleared')
                                 ->get();
+
+                                
         $form = Form::all();
 
         return view('pages.requests.index', [

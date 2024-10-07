@@ -2,6 +2,9 @@
           @foreach ($datas as $data)
           <tr>
              <td>{{ $loop->iteration }}</td>
+             <td>
+               <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-soft-primary w-100 m-0">Chatroom</a>
+            </td>
              <td>{{ $data->requestor->name }}</td>
              <td>{{ $data->type }}</td>
              <td>{{ $data->location }}</td>
@@ -27,9 +30,6 @@
                 @endif
              </td>
              <td>{{ $data->detailed_created_at }}</td>
-             <td class="flex">
-                <a href="{{ route('requests.show', $data->slug) }}" class="btn btn-sm btn-soft-primary">Chatroom</a>
-             </td>
           </tr>
           @endforeach
         </tbody>

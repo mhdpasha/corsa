@@ -95,6 +95,7 @@
                      <thead>
                         <tr>
                           <th style="max-width: 1px"></th>
+                          <th style="max-width: 10px">Action</th>
                           <th style="max-width: 10px">Requestor</th>
                           <th style="max-width: 10px">Dept</th>
                           <th style="max-width: 10px">Location</th>
@@ -102,7 +103,6 @@
                           <th style="max-width: 10px" class="text-center"></th>
                           <th style="max-width: 10px" class="text-center">Status</th>
                           <th style="max-width: 10px">Date</th>
-                          <th st   yle="max-width: 10px">Action</th>
                         </tr>
                      </thead>
                    

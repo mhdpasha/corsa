@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        // User Starter Account
         $user1 = User::create([
             'name' => 'Pasha',
             'email' => 'pasha@gmail.com',
@@ -41,6 +43,8 @@ class DatabaseSeeder extends Seeder
             'view_password' => 'kevin123',
             'role' => 'admin',
         ]);
+
+
         $request1 = IncomingRequest::create([
             'status' => 'cleared',
             'type' => 'Maintenance',
@@ -78,13 +82,14 @@ class DatabaseSeeder extends Seeder
         Message::create([
             'user_id' => $user2->id,
             'request_id' => $request3->id,
-            'content' => 'Kenapa locker nya mas Kevin?'
+            'content' => 'Test Message'
         ]);
         Message::create([
             'user_id' => $user3->id,
             'request_id' => $request3->id,
-            'content' => 'Kunci nya dol mas'
+            'content' => 'Test Message'
         ]);
+
 
         Form::create([
             'location' => 'Ballroom',

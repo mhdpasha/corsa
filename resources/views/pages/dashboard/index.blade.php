@@ -15,7 +15,7 @@
                              </svg>
                           </div>
                           <div class="progress-detail">
-                             <p  class="mb-2">Requests</p>
+                             <p  class="mb-2">Total Requests</p>
                              <h4 class="counter">{{ $data['total'] }}</h4>
                           </div>
                        </div>
@@ -30,7 +30,7 @@
                              </svg>
                           </div>
                           <div class="progress-detail">
-                             <p  class="mb-2">Ongoing</p>
+                             <p  class="mb-2">Active Requests</p>
                              <h4 class="counter">{{ $data['active'] }}</h4>
                           </div>
                        </div>
@@ -45,7 +45,7 @@
                              </svg>
                           </div>
                           <div class="progress-detail">
-                             <p  class="mb-2">Unresolved</p>
+                             <p  class="mb-2">Uncleared Requests</p>
                              <h4 class="counter">{{ $data['new'] }}</h4>
                           </div>
                        </div>
@@ -60,13 +60,13 @@
                              </svg>
                           </div>
                           <div class="progress-detail">
-                             <p  class="mb-2">Resolved</p>
+                             <p  class="mb-2">Cleared Requests</p>
                              <h4 class="counter">{{ $data['cleared'] }}</h4>
                           </div>
                        </div>
                     </div>
                  </li>
-                 <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1100">
+                 {{-- <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1100">
                     <div class="card-body">
                        <div class="progress-widget">
                           <div id="circle-progress-05" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="50" data-type="percent">
@@ -110,7 +110,7 @@
                           </div>
                        </div>
                     </div>
-                 </li>
+                 </li> --}}
               </ul>
               <div class="swiper-button swiper-button-next"></div>
               <div class="swiper-button swiper-button-prev"></div>
@@ -224,7 +224,7 @@
                         <a href="{{ route('requests.show', $task->slug) }}" class="col-6 col-md-3 m-2">
                            <div class="card bg-primary opacity-40 w-100 h-100">
                               <div class="card-body d-flex align-items-center justify-content-center">
-                                 <p class="text-white text-center mb-0">{{ $task->title }}</p>
+                                 <p class="text-white text-center mb-0">{{ $task->location }}</p>
                               </div>
                            </div>
                         </a>
@@ -251,7 +251,7 @@
                      <div class="mt-1 profile-dots-pills border-primary"></div>
                      <div class="ms-4">
                         <h6 class="mb-1 ">{{ $request->title }} at {{ $request->location }}</h6>
-                        <span class="mb-0">Requested by {{ $request->requestor->name }} on {{ $request->created_at->translatedFormat('j/m/Y') }}</span>
+                        <span class="mb-0">Requested by <strong>{{ $request->requestor->name }}</strong> on {{ $request->created_at->translatedFormat('j/m/Y') }}</span>
                      </div>
                   </div>
                   @endforeach
